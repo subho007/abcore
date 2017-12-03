@@ -1,0 +1,29 @@
+build_tag_release_bitcoin_core_android:
+  image: greenaddress/core_builder_for_android@sha256:09a9a65de8ba90a9d3334ea89f9924cdbcc2fdee424c175cc9e3b0d8702f05e0
+  artifacts:
+    name: "bitcoin_core-$CI_COMMIT_REF_NAME"
+    when: on_success
+    paths:
+    - "*.tar.gz"
+  tags:
+    - ga
+  script:
+    - cd $CI_PROJECT_DIR
+    - ./fetchbuild.sh https://github.com/bitcoin/bitcoin/archive/v0.15.1.tar.gz
+  only:
+    - tags
+
+build_tag_release_bitcoin_knots_android:
+  image: greenaddress/core_builder_for_android@sha256:09a9a65de8ba90a9d3334ea89f9924cdbcc2fdee424c175cc9e3b0d8702f05e0
+  artifacts:
+    name: "bitcoin_knots-$CI_COMMIT_REF_NAME"
+    when: on_success
+    paths:
+    - "*.tar.gz"
+  tags:
+    - ga
+  script:
+    - cd $CI_PROJECT_DIR
+    - ./fetchbuild.sh https://github.com/bitcoinknots/bitcoin/archive/v0.15.1.knots20171111.tar.gz
+  only:
+    - tags

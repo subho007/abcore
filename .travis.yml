@@ -1,28 +1,9 @@
-language: android
+language: generic
+sudo: required
 
-dist: trusty
-
-android:
-    components:
-        - tools
-        - build-tools-26.0.2
-        - android-26
-        - android-21
-        - sys-img-armeabi-v7a-android-21
-        - platform-tools-26
-        - extra-android-support
-        - extra-android-m2repository
-        - extra-google-m2repository
-    licenses:
-        - '.+'
-
-before_script:
-    - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
-    - emulator -avd test -no-audio -no-window &
-jdk:
-    - oraclejdk8
+services:
+  - docker
 
 script:
-    - "./gradlew clean assembleRelease"
-    - "android-wait-for-emulator"
-    - "./gradlew cAT"
+  - docker run -v $PWD:/repo greenaddress/core_builder_for_android@sha256:09a9a65de8ba90a9d3334ea89f9924cdbcc2fdee424c175cc9e3b0d8702f05e0 /bin/bash -c "/repo/daemon_builder/fetchbuild.sh https://github.com/bitcoin/bitcoin/archive/v0.15.1.tar.gz"
+    - docker run -v $PWD:/repo greenaddress/core_builder_for_android@sha256:09a9a65de8ba90a9d3334ea89f9924cdbcc2fdee424c175cc9e3b0d8702f05e0 /bin/bash -c "/repo/daemon_builder/fetchbuild.sh https://github.com/bitcoinknots/bitcoin/archive/v0.15.1.knots20171111.tar.gz"
